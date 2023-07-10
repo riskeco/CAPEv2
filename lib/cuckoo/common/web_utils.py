@@ -14,6 +14,7 @@ from random import choice
 import magic
 import requests
 from django.http import HttpResponse
+from urllib.parse import urlparse
 
 from lib.cuckoo.common.config import Config
 from lib.cuckoo.common.integrations.parse_pe import HAVE_PEFILE, IsPEImage, pefile
@@ -1296,7 +1297,7 @@ def process_new_dlnexec_task(url, route, options, custom):
     if not response:
         return False, False, False
 
-    name = os.path.basename(url)
+    name = os.path.basename(urlparse(url).path)
     if "." not in name:
         name = get_user_filename(options, custom) or generate_fake_name()
 
